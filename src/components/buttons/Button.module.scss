@@ -1,0 +1,29 @@
+.button {
+  @apply flex items-center justify-center gap-2 self-center transition-all rounded-sm;
+
+  &.variant {
+    &-contained {
+      @apply border border-neutral-500 bg-blue-500 text-white py-1 px-2;
+
+      &:hover {
+        @apply border-amber-500 bg-blue-700;
+
+        > svg {
+          @apply text-amber-300;
+        }
+      }
+
+      > svg {
+        @apply transition-all;
+      }
+    }
+
+    &-text {
+      @apply text-neutral-500;
+
+      &:hover {
+        @apply text-amber-700 bg-neutral-300;
+      }
+    }
+  }
+}

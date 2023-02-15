@@ -5,6 +5,7 @@ specifiers:
   '@babel/plugin-proposal-do-expressions': ^7.18.6
   '@babel/plugin-proposal-partial-application': ^7.18.9
   '@babel/plugin-proposal-pipeline-operator': ^7.18.9
+  '@heroicons/react': ^2.0.15
   '@tanstack/react-table': ^8.7.9
   '@types/lodash': ^4.14.191
   '@types/node': 18.13.0
@@ -12,6 +13,8 @@ specifiers:
   '@types/react-dom': 18.0.11
   autoprefixer: ^10.4.13
   axios: ^1.3.3
+  classnames: ^2.3.2
+  date-fns: ^2.29.3
   lodash: ^4.17.21
   next: 13.1.6
   postcss: ^8.4.21
@@ -20,14 +23,19 @@ specifiers:
   react-dom: 18.2.0
   sass: ^1.58.1
   tailwindcss: ^3.2.6
-  typescript: 5.0.0-dev.20230215
+  typescript: 4.9.5
+  zustand: ^4.3.3
 
 dependencies:
+  '@heroicons/react': 2.0.15_react@18.2.0
   '@tanstack/react-table': 8.7.9_biqbaboplfbrettd7655fr4n2y
+  classnames: 2.3.2
+  date-fns: 2.29.3
   lodash: 4.17.21
   next: 13.1.6_xwkhz2pflc2dna3hcltgugxula
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  zustand: 4.3.3_react@18.2.0
 
 devDependencies:
   '@babel/core': 7.20.12
@@ -44,7 +52,7 @@ devDependencies:
   prettier: 2.8.4
   sass: 1.58.1
   tailwindcss: 3.2.6_postcss@8.4.21
-  typescript: 5.0.0-dev.20230215
+  typescript: 4.9.5
 
 packages:
 
@@ -295,6 +303,14 @@ packages:
       '@babel/helper-string-parser': 7.19.4
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
+
+  /@heroicons/react/2.0.15_react@18.2.0:
+    resolution: {integrity: sha512-CZ2dGWgWG3/z5LEoD5D3MEr1syn45JM/OB2aDpw531Ryecgkz2V7TWQ808P0lva7zP003PVW6WlwbofsYyga3A==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
@@ -639,6 +655,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
 
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+    dev: false
+
   /client-only/0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
     dev: false
@@ -674,6 +694,11 @@ packages:
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
     dev: true
+
+  /date-fns/2.29.3:
+    resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -1238,8 +1263,8 @@ packages:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
     dev: false
 
-  /typescript/5.0.0-dev.20230215:
-    resolution: {integrity: sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==}
+  /typescript/4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
@@ -1253,6 +1278,14 @@ packages:
       browserslist: 4.21.5
       escalade: 3.1.1
       picocolors: 1.0.0
+
+  /use-sync-external-store/1.2.0_react@18.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -1270,3 +1303,19 @@ packages:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
     dev: true
+
+  /zustand/4.3.3_react@18.2.0:
+    resolution: {integrity: sha512-x2jXq8S0kfLGNwGh87nhRfEc2eZy37tSatpSoSIN+O6HIaBhgQHSONV/F9VNrNcBcKQu/E80K1DeHDYQC/zCrQ==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
