@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-pipeline-operator",
+      {
+        "proposal": "hack",
+        "topicToken": "#"
+      }
+    ],
+    "@babel/plugin-proposal-partial-application",
+    "@babel/plugin-proposal-do-expressions"
+  ]
+}
