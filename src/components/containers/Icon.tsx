@@ -8,7 +8,7 @@ export interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconType;
 }
 export const Icon: FC<IconProps> = ({ name, className, ...props }) => {
-  const Icon: FC = IconRegistry[`${name}Icon`];
+  const Icon: FC<SVGProps<SVGSVGElement>> = IconRegistry[`${name}Icon`];
 
   return <Icon {...props} className={cx('w-6 h-6', className)} />;
 };
