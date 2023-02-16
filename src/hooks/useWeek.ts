@@ -1,5 +1,5 @@
 import * as dates from 'date-fns';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useDate } from '@/hooks/useDate';
 
 namespace Dates {
@@ -14,7 +14,10 @@ export const useWeek = (initial: Date = dates.startOfWeek(new Date(), { weekStar
     (weeks?: any) => original.backward({ weeks: typeof weeks === 'number' ? weeks : 1 }),
     [],
   );
-  const set = useCallback((week: Date) => original.set(Dates.fromWeek(week)), []);
+  const set = useCallback(
+    (date: Date) => original.set(Dates.fromWeek(dates.startOfWeek(date, { weekStartsOn: 1 }))),
+    [],
+  );
 
   return {
     date,

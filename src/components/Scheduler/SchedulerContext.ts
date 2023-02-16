@@ -1,5 +1,10 @@
 import { createContext } from '@/hooks/createContext';
+import { useWeek } from '@/hooks/useWeek';
 
 export const [useScheduler, SchedulerProvider] = createContext(() => {
-  return {};
+  const week = useWeek(new Date());
+
+  return {
+    week,
+  };
 });
