@@ -14,3 +14,20 @@ body {
   height: 100vh;
   width: 100vw;
 }
+
+
+::-webkit-scrollbar {
+  @apply appearance-none;
+
+  &:vertical {
+    @apply w-3;
+  }
+
+  &:horizontal {
+    @apply h-3;
+  }
+
+  &-thumb {
+    @apply rounded-full bg-blue-200 border-2 border-white border-solid;
+  }
+}

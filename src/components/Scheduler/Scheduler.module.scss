@@ -1,4 +1,11 @@
 .scheduler {
+  //noinspection CssInvalidPropertyValue
+  width: stretch;
+
+  thead {
+    @apply bg-white;
+    @apply shadow-sm;
+  }
 
   tbody {
     @apply text-xs;
@@ -18,5 +25,14 @@
     tr:nth-child(4n+1) {
       @apply border-t border-gray-200;
     }
+  }
+}
+
+.scrollable {
+  @apply overflow-y-auto;
+
+  thead {
+    position: sticky;
+    top: 0;
   }
 }
