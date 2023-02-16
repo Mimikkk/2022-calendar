@@ -39,7 +39,7 @@ export const SchedulerBody = () => {
           cell: () => null,
           header: () => (
             <>
-              <span className={cx({ ['text-blue-500']: dates.isToday(day) })}>{asDay.format(day)}</span>
+              <span className={cx('uppercase', { ['text-blue-500']: dates.isToday(day) })}>{asDay.format(day)}</span>
               <div
                 className={cx('transition-all rounded-full mx-4 cursor-pointer', {
                   ['text-white bg-blue-500 hover:bg-blue-600']: dates.isToday(day),
