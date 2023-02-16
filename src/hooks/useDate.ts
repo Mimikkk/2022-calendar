@@ -3,8 +3,8 @@ import { useCallback, useState } from 'react';
 
 export const useDate = (initial: Date = new Date()) => {
   const [date, set] = useState(initial);
-  const forward = useCallback((duration: Duration = { days: 1 }) => set((value) => dates.add(value, duration)), []);
-  const backward = useCallback((duration: Duration = { days: 1 }) => set((value) => dates.sub(value, duration)), []);
+  const forward = useCallback((duration: Duration) => set((value) => dates.add(value, duration)), []);
+  const backward = useCallback((duration: Duration) => set((value) => dates.sub(value, duration)), []);
 
   return {
     date,
