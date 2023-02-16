@@ -1,8 +1,8 @@
 import { ButtonIcon } from '@/components/buttons/ButtonIcon';
-import { useScheduler } from './SchedulerContext';
 import * as dates from 'date-fns';
 import { useCallback } from 'react';
 import type { ChangeEvent } from 'react';
+import { useScheduler } from '@/components/Scheduler/SchedulerContext';
 
 export const SchedulerHeader = () => {
   const {
