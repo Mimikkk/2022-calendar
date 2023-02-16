@@ -1,5 +1,5 @@
 import * as dates from 'date-fns';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDate } from '@/hooks/useDate';
 
 namespace Dates {
@@ -16,20 +16,23 @@ export const useWeek = (initial: Date = dates.startOfWeek(new Date())) => {
   );
   const set = useCallback((date: Date) => original.set(Dates.fromWeek(dates.startOfWeek(date))), []);
 
-  return {
-    date,
-    str,
-    forward,
-    backward,
-    set,
-    get week() {
-      return Dates.asWeek(date);
-    },
-    get days() {
-      return dates.eachDayOfInterval({
-        start: dates.startOfWeek(date),
-        end: dates.endOfWeek(date),
-      });
-    },
-  };
+  return useMemo(
+    () => ({
+      date,
+      str,
+      forward,
+      backward,
+      set,
+      get week() {
+        return Dates.asWeek(date);
+      },
+      get days() {
+        return dates.eachDayOfInterval({
+          start: dates.startOfWeek(date),
+          end: dates.endOfWeek(date),
+        });
+      },
+    }),
+    [date],
+  );
 };
