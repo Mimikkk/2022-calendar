@@ -1,7 +1,15 @@
 'use client';
-import { Scheduler } from '@/components/Scheduler';
+import * as dates from 'date-fns';
+import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
+
+const Scheduler = dynamic(() => import('@/components/Scheduler').then((mod) => mod.Scheduler), { ssr: false });
 
 export default () => {
+  useEffect(() => {
+    dates.setDefaultOptions({ weekStartsOn: 1 });
+  }, []);
+
   return (
     <main className="w-full h-full bg-stone-900">
       <div className="h-full w-full p-24 rounded flex justify-center items-center">

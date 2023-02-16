@@ -1,0 +1,22 @@
+.scheduler {
+
+  tbody {
+    @apply text-xs;
+
+    th {
+      @apply p-2;
+    }
+
+    td:not(:is(:first-child, :last-child)) {
+      @apply border-x border-gray-200;
+    }
+
+    tr:not(:nth-child(4n+1)) {
+      visibility: hidden;
+    }
+
+    tr:nth-child(4n+1) {
+      @apply border-t border-gray-200;
+    }
+  }
+}

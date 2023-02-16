@@ -13,7 +13,12 @@ export const SchedulerHeader = () => {
       </ButtonIcon>
       <ButtonIcon variant="text" icon="ChevronLeft" onClick={backward} />
       <ButtonIcon variant="text" icon="ChevronRight" onClick={forward} />
-      <input className="min-w-[12rem]" type="week" value={week} onChange={(event) => set(event.target.valueAsDate!)} />
+      <input
+        className="min-w-[12rem]"
+        type="week"
+        value={week}
+        onChange={(event) => event.target.valueAsDate && set(event.target.valueAsDate)}
+      />
     </div>
   );
 };
