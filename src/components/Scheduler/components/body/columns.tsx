@@ -2,29 +2,38 @@ import cx from 'classnames';
 import * as dates from 'date-fns';
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import { Day } from '@/utils/fp';
-import { SchedulerRow } from './rows';
-import { DragEvent } from 'react';
+import type { SchedulerRow } from './rows';
+import type { MouseEvent } from 'react';
 
-export type DraggableColumnDef<T> = ColumnDef<T> & {
-  onDragEnter?: (event: DragEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
-  onDragStart?: (event: DragEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
-  onDragEnd?: (event: DragEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
+export type ListenerColumnDef<T> = ColumnDef<T> & {
+  onCellMouseEnter?: (event: MouseEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
+  onCellMouseDown?: (event: MouseEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
+  onCellMouseUp?: (event: MouseEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
 };
 
 export namespace SchedulerColumn {
   export const create = (days: Date[]): ColumnDef<SchedulerRow>[] => [
     {
       id: 'time',
-      cell: ({ row }) => dates.format(row.original[0], 'HH:mm'),
+      cell: ({ row }) => {
+        return +row.id % 4 === 0 ? dates.format(row.original[0], 'HH:mm') : '';
+      },
     },
     ...days.map(createColumn),
   ];
 
-  const createColumn = (day: Date, index: number): DraggableColumnDef<SchedulerRow> => ({
+  const createColumn = (day: Date, index: number): ListenerColumnDef<SchedulerRow> => ({
     id: `day-${index}`,
     accessorFn: (row) => row[index],
     cell: () => null,
     header: createSchedulerDayCell(day),
+    onCellMouseUp: (event, { row }) => {
+      console.log('up', row);
+    },
+    onCellMouseDown: (event, { row }) => {
+      console.log('down', row);
+    },
+    onCellMouseEnter: (event, { row }) => {},
   });
 
   const createSchedulerDayCell = (day: Date) => () =>

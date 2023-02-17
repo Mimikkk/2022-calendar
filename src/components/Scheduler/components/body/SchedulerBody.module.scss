@@ -18,8 +18,8 @@
       @apply border-x border-gray-200;
     }
 
-    tr:not(:nth-child(4n+1)) {
-      visibility: hidden;
+    tr {
+      height: calc(1rem + 1px);
     }
 
     tr:nth-child(4n+1) {

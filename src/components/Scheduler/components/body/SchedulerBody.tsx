@@ -4,7 +4,7 @@ import { flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { useTable } from '@/hooks/useTable';
 import { SchedulerRow } from './rows';
-import { DraggableColumnDef, SchedulerColumn } from './columns';
+import { ListenerColumnDef, SchedulerColumn } from './columns';
 
 export const SchedulerBody = () => {
   const { week } = useScheduler();
@@ -30,15 +30,15 @@ export const SchedulerBody = () => {
           {getRowModel().rows.map(({ getVisibleCells, id }) => (
             <tr key={id}>
               {getVisibleCells().map(({ column: { columnDef }, getContext, id }) => {
-                const def = columnDef as DraggableColumnDef<SchedulerRow>;
+                const def = columnDef as ListenerColumnDef<SchedulerRow>;
                 const context = getContext();
 
                 return (
                   <td
                     key={id}
-                    onDragEnter={!!def.onDragEnter ? (event) => def.onDragEnter?.(event, context) : undefined}
-                    onDragEnd={!!def.onDragEnd ? (event) => def.onDragEnd?.(event, context) : undefined}
-                    onDragStart={!!def.onDragStart ? (event) => def.onDragStart?.(event, context) : undefined}>
+                    onMouseEnter={(event) => def.onCellMouseEnter?.(event, context)}
+                    onMouseDown={(event) => def.onCellMouseDown?.(event, context)}
+                    onMouseUp={(event) => def.onCellMouseUp?.(event, context)}>
                     {flexRender(def.cell, context)}
                   </td>
                 );
