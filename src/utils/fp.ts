@@ -1,4 +1,4 @@
-import dates from 'date-fns';
+import * as dates from 'date-fns';
 const asDayFormatter = Intl.DateTimeFormat(undefined, { weekday: 'short' });
 const asNumFormatter = Intl.DateTimeFormat(undefined, { day: 'numeric' });
 

@@ -1,5 +1,5 @@
 import { useScheduler } from '@/components/Scheduler/SchedulerContext';
-import s from './Scheduler.module.scss';
+import s from './SchedulerBody.module.scss';
 import { flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { useTable } from '@/hooks/useTable';
