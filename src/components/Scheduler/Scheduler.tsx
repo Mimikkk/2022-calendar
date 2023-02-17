@@ -1,3 +1,4 @@
+import { SchedulerDragContainer } from './components/drag';
 import { SchedulerBody } from './components/body';
 import { SchedulerHeader } from './components/header';
 import { SchedulerProvider } from './SchedulerContext';
@@ -7,6 +8,7 @@ export const Scheduler = () => (
     <SchedulerProvider>
       <SchedulerHeader />
       <SchedulerBody />
+      <SchedulerDragContainer />
     </SchedulerProvider>
   </section>
 );
