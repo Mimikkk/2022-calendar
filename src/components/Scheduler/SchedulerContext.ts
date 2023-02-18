@@ -11,13 +11,13 @@ export const [useScheduler, SchedulerProvider] = createContext(() => {
 
   return { week };
 });
-
+interface Interval {
+  start: Date;
+  end: Date;
+}
 interface SchedulerState {
   containers: Interval[];
-  current: {
-    start?: Date;
-    end?: Date;
-  } | null;
+  current: Partial<Interval> | null;
   table: HTMLTableElement;
   cellByIsoDate: Record<string, HTMLTableCellElement>;
   contextByIsoDate: Record<string, CellContext<SchedulerRow, unknown>>;
@@ -26,6 +26,10 @@ interface SchedulerState {
 export const useSchedulerStore = create<SchedulerState>()(
   subscribeWithSelector((set, get) => ({
     containers: [],
+    // Day.stepEvery15Minutes(new Date()).map((part) => ({
+    //   start: part,
+    //   end: part,
+    // })),
     cellByIsoDate: {},
     contextByIsoDate: {},
     current: null,

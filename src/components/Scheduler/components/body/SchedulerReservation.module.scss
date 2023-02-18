@@ -1,0 +1,16 @@
+
+.element {
+  @apply w-full absolute top-0 left-0 text-white bg-blue-400 rounded font-bold flex flex-col;
+
+  .content {
+    @apply overflow-hidden;
+  }
+
+  .single {
+    @apply text-xs;
+  }
+}
+
+.is-pending {
+  @apply pointer-events-none;
+}

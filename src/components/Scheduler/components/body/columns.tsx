@@ -4,8 +4,9 @@ import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import { Day } from '@/utils/fp';
 import type { SchedulerRow } from './rows';
 import type { PointerEvent } from 'react';
+import { render } from 'react-dom';
 import { schedulerStore } from '@/components/Scheduler/SchedulerContext';
-import { SchedulerDragContainer } from '@/components/Scheduler/components/drag';
+import { SchedulerReservation } from './SchedulerReservation';
 
 export type PointerColumnDef<T> = ColumnDef<T> & {
   onCellPointerEnter?: (event: PointerEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
@@ -22,32 +23,31 @@ export namespace SchedulerColumn {
   const createDayColumn = (day: Date, index: number): PointerColumnDef<SchedulerRow> => ({
     id: `day-${index}`,
     accessorFn: (row) => row[index],
-    cell: () => <DayCell day={day} />,
+    cell: () => <SchedulerDayCell day={day} />,
     header: () => <DayHeader day={day} />,
     onCellPointerUp: (event, cell) => {
-      if (!schedulerStore.state.current) return;
+      if (!schedulerStore.state.current?.start) return;
       const start = schedulerStore.state.current.start!;
-      const end = dates.setDay(cell.getValue<Date>(), start.getDay());
-
-      schedulerStore.mutate({ current: { end } });
-      SchedulerDragContainer.update({ start, end });
+      const container = schedulerStore.state.cellByIsoDate[start.toISOString()];
 
       schedulerStore.mutate({ current: null });
-      SchedulerDragContainer.clear();
+      container.replaceChildren('');
     },
     onCellPointerDown: (event, cell) => {
       const start = cell.getValue<Date>();
+      const container = event.target as HTMLElement;
 
       schedulerStore.mutate({ current: { start } });
-      SchedulerDragContainer.update({ start });
+      render(<SchedulerReservation start={start} />, container);
     },
     onCellPointerEnter: (event, cell) => {
-      if (!schedulerStore.state.current) return;
+      if (!schedulerStore.state.current?.start) return;
       const start = schedulerStore.state.current.start!;
-      const end = dates.setDay(cell.getValue<Date>(), start.getDay());
+      const container = schedulerStore.state.cellByIsoDate[start.toISOString()];
+      const end = dates.setDay(cell.getValue<Date>(), dates.getDay(start));
 
       schedulerStore.mutate({ current: { end } });
-      SchedulerDragContainer.update({ start, end });
+      render(<SchedulerReservation start={start} end={end} />, container);
     },
   });
 
@@ -63,5 +63,5 @@ export namespace SchedulerColumn {
       </div>
     </div>
   );
-  const DayCell = ({ day }: { day: Date }) => <div>{day.getDay()}</div>;
+  const SchedulerDayCell = ({ day }: { day: Date }) => null;
 }

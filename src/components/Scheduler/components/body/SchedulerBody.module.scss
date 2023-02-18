@@ -5,6 +5,8 @@
   thead {
     @apply bg-white;
     @apply shadow-sm;
+
+    z-index: 1;
   }
 
   tbody {
@@ -24,6 +26,10 @@
 
     tr:nth-child(4n+1) {
       @apply border-t border-gray-200;
+    }
+
+    tr td {
+      @apply relative;
     }
   }
 }

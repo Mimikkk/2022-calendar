@@ -29,7 +29,7 @@ export const SchedulerBody = () => {
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody onPointerLeave={() => schedulerStore.mutate({ current: null })}>
           {getRowModel().rows.map(({ getVisibleCells, id }) => (
             <tr key={id}>
               {getVisibleCells().map(({ column: { columnDef }, getContext, id }) => {
@@ -40,8 +40,7 @@ export const SchedulerBody = () => {
                   <td
                     ref={(cell) => {
                       if (!context.getValue()) return;
-                      schedulerStore.state.cellByIsoDate[(context.getValue() as Date).toISOString()] = cell!;
-                      schedulerStore.state.contextByIsoDate[(context.getValue() as Date).toISOString()] = context;
+                      schedulerStore.state.cellByIsoDate[context.getValue<Date>().toISOString()] = cell!;
                     }}
                     key={id}
                     onPointerEnter={
