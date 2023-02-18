@@ -2,7 +2,7 @@ import { schedulerStore, useSchedulerStore } from '@/components/Scheduler/Schedu
 import type { FC } from 'react';
 import * as dates from 'date-fns';
 import cx from 'classnames';
-import { differenceInMinutes, isEqual } from 'date-fns';
+import { differenceInMinutes, isBefore, isEqual } from 'date-fns';
 import { useMemo, useRef } from 'react';
 import s from './SchedulerReservation.module.scss';
 import { Icon } from '@/components/containers/Icon';
@@ -18,12 +18,14 @@ export const SchedulerReservation: FC<SchedulerReservationProps> = ({ start, end
     (s) => [s.cellByIsoDate, s.pending, s.selected],
     shallow,
   );
+
   const isSelected = selected && isEqual(selected, start);
   const isPending = pending?.start && isEqual(pending.start, start);
   const hasPending = !!pending;
   const select = () => schedulerStore.effect({ selected: start });
   const ref = useRef<HTMLDivElement | null>(null);
 
+  if (isBefore(end, start)) [start, end] = [end, start];
   const height = useMemo(
     () =>
       Math.round(differenceInMinutes(end, start) / 15 + 1) *
