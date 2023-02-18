@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import * as dates from 'date-fns';
-import type { CellContext, ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
+import type { CellContext, ColumnDef, HeaderContext } from '@tanstack/react-table';
 import { Day } from '@/utils/fp';
 import type { SchedulerRow } from './rows';
 import type { PointerEvent } from 'react';
@@ -8,7 +8,7 @@ import { schedulerStore, useSchedulerStore } from '@/components/Scheduler/Schedu
 import { SchedulerReservation } from './SchedulerReservation';
 import { createRoot } from 'react-dom/client';
 import { useMemo } from 'react';
-import { isBefore, isWithinInterval } from 'date-fns';
+import { isBefore } from 'date-fns';
 
 export type PointerColumnDef<T> = ColumnDef<T> & {
   onCellPointerEnter?: (event: PointerEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;

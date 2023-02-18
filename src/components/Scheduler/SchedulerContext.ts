@@ -4,7 +4,6 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { merge } from 'lodash';
 import { Root } from 'react-dom/client';
-import { Day } from '@/utils/fp';
 
 export const [useScheduler, SchedulerProvider] = createContext(() => {
   const week = useWeek(new Date());
@@ -24,7 +23,7 @@ interface SchedulerState {
 }
 
 export const useSchedulerStore = create<SchedulerState>()(
-  subscribeWithSelector((set, get) => ({
+  subscribeWithSelector((_) => ({
     containers: [],
     cellByIsoDate: {},
     selected: null,

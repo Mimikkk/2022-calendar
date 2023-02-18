@@ -1,7 +1,7 @@
 import { schedulerStore, useScheduler } from '@/components/Scheduler/SchedulerContext';
 import s from './SchedulerBody.module.scss';
 import { flexRender } from '@tanstack/react-table';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTable } from '@/hooks/useTable';
 import { SchedulerRow } from './rows';
 import { type PointerColumnDef, SchedulerColumn } from './columns';
