@@ -25,7 +25,7 @@ interface SchedulerState {
 
 export const useSchedulerStore = create<SchedulerState>()(
   subscribeWithSelector((set, get) => ({
-    containers: Day.stepEvery15Minutes(new Date()).map((part) => ({ start: part, end: part })),
+    containers: [],
     cellByIsoDate: {},
     selected: null,
     pending: null,
