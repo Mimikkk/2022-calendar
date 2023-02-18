@@ -3,8 +3,8 @@ import { useWeek } from '@/hooks/useWeek';
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { merge } from 'lodash';
-import { CellContext } from '@tanstack/react-table';
-import { SchedulerRow } from '@/components/Scheduler/components/body/rows';
+import { Root } from 'react-dom/client';
+import { Day } from '@/utils/fp';
 
 export const [useScheduler, SchedulerProvider] = createContext(() => {
   const week = useWeek(new Date());
@@ -17,22 +17,18 @@ interface Interval {
 }
 interface SchedulerState {
   containers: Interval[];
-  current: Partial<Interval> | null;
+  pending: Partial<Interval & { root: Root }> | null;
+  selected: Date | null;
   table: HTMLTableElement;
   cellByIsoDate: Record<string, HTMLTableCellElement>;
-  contextByIsoDate: Record<string, CellContext<SchedulerRow, unknown>>;
 }
 
 export const useSchedulerStore = create<SchedulerState>()(
   subscribeWithSelector((set, get) => ({
-    containers: [],
-    // Day.stepEvery15Minutes(new Date()).map((part) => ({
-    //   start: part,
-    //   end: part,
-    // })),
+    containers: Day.stepEvery15Minutes(new Date()).map((part) => ({ start: part, end: part })),
     cellByIsoDate: {},
-    contextByIsoDate: {},
-    current: null,
+    selected: null,
+    pending: null,
     table: null as never,
   })),
 );
@@ -43,4 +39,5 @@ export const schedulerStore = {
   },
   mutate: (state: Partial<SchedulerState>) => useSchedulerStore.setState(merge(schedulerStore.state, state)),
   attach: (container: HTMLTableElement) => schedulerStore.mutate({ table: container }),
+  effect: useSchedulerStore.setState,
 };

@@ -7,4 +7,4 @@
 - [ ] Edycja
 - [ ] Usuwanie
 - [ ] Obsługa widoku mobilnego
- 
+- [ ] Pozwolenie na wielokrotne rezerwacje

@@ -1,10 +1,16 @@
 
 .element {
-  @apply w-full absolute top-0 left-0 text-white bg-blue-400 rounded font-bold flex flex-col;
+  @apply absolute top-0 left-0 text-white bg-blue-400 rounded font-bold flex flex-col;
+  @apply transition-colors;
+  @apply shadow shadow-blue-700;
+  z-index: 1;
 
   .content {
     @apply overflow-hidden;
+    @apply flex justify-between p-0.5;
   }
+
+  width: calc(100% - 1rem);
 
   .single {
     @apply text-xs;
@@ -12,5 +18,16 @@
 }
 
 .is-pending {
+  @apply bg-blue-300;
+  @apply w-full;
+}
+
+.is-selected {
+  @apply bg-blue-300;
+  width: calc(100% - 1.5rem);
+  z-index: 2;
+}
+
+.has-pending {
   @apply pointer-events-none;
 }

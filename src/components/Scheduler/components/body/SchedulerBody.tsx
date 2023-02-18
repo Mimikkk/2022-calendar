@@ -12,9 +12,6 @@ export const SchedulerBody = () => {
   const rows = useMemo(() => SchedulerRow.create(days), [week]);
   const columns = useMemo(() => SchedulerColumn.create(days), [week]);
 
-  useEffect(() => {
-    schedulerStore.mutate({ cellByIsoDate: {}, contextByIsoDate: {} });
-  }, [week]);
   const { getHeaderGroups, getRowModel } = useTable({ data: rows, columns });
 
   return (
@@ -29,7 +26,11 @@ export const SchedulerBody = () => {
             </tr>
           ))}
         </thead>
-        <tbody onPointerLeave={() => schedulerStore.mutate({ current: null })}>
+        <tbody
+          onPointerLeave={() => {
+            schedulerStore.state.pending?.root?.unmount();
+            schedulerStore.effect({ pending: null });
+          }}>
           {getRowModel().rows.map(({ getVisibleCells, id }) => (
             <tr key={id}>
               {getVisibleCells().map(({ column: { columnDef }, getContext, id }) => {
