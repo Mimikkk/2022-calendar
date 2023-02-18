@@ -15,21 +15,19 @@ export const [useScheduler, SchedulerProvider] = createContext(() => {
 interface SchedulerState {
   containers: Interval[];
   current: {
-    start?: {
-      cell: CellContext<SchedulerRow, any>;
-      ref: HTMLTableCellElement;
-    };
-    end?: {
-      cell: CellContext<SchedulerRow, any>;
-      ref: HTMLTableCellElement;
-    };
+    start?: Date;
+    end?: Date;
   } | null;
   table: HTMLTableElement;
+  cellByIsoDate: Record<string, HTMLTableCellElement>;
+  contextByIsoDate: Record<string, CellContext<SchedulerRow, unknown>>;
 }
 
 export const useSchedulerStore = create<SchedulerState>()(
   subscribeWithSelector((set, get) => ({
     containers: [],
+    cellByIsoDate: {},
+    contextByIsoDate: {},
     current: null,
     table: null as never,
   })),

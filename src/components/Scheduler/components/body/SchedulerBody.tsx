@@ -1,7 +1,7 @@
 import { schedulerStore, useScheduler } from '@/components/Scheduler/SchedulerContext';
 import s from './SchedulerBody.module.scss';
 import { flexRender } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTable } from '@/hooks/useTable';
 import { SchedulerRow } from './rows';
 import { type PointerColumnDef, SchedulerColumn } from './columns';
@@ -11,6 +11,10 @@ export const SchedulerBody = () => {
   const { days } = week;
   const rows = useMemo(() => SchedulerRow.create(days), [week]);
   const columns = useMemo(() => SchedulerColumn.create(days), [week]);
+
+  useEffect(() => {
+    schedulerStore.mutate({ cellByIsoDate: {}, contextByIsoDate: {} });
+  }, [week]);
   const { getHeaderGroups, getRowModel } = useTable({ data: rows, columns });
 
   return (
@@ -34,6 +38,11 @@ export const SchedulerBody = () => {
 
                 return (
                   <td
+                    ref={(cell) => {
+                      if (!context.getValue()) return;
+                      schedulerStore.state.cellByIsoDate[(context.getValue() as Date).toISOString()] = cell!;
+                      schedulerStore.state.contextByIsoDate[(context.getValue() as Date).toISOString()] = context;
+                    }}
                     key={id}
                     onPointerEnter={
                       def.onCellPointerEnter

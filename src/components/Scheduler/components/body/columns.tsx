@@ -16,37 +16,42 @@ export type PointerColumnDef<T> = ColumnDef<T> & {
 export namespace SchedulerColumn {
   export const create = (days: Date[]): ColumnDef<SchedulerRow>[] => [
     { id: 'time', cell: ({ row }) => (row.index % 4 === 0 ? dates.format(row.original[0], 'HH:mm') : '') },
-    ...days.map(createColumn),
+    ...days.map(createDayColumn),
   ];
 
-  const createColumn = (day: Date, index: number): PointerColumnDef<SchedulerRow> => ({
+  const createDayColumn = (day: Date, index: number): PointerColumnDef<SchedulerRow> => ({
     id: `day-${index}`,
     accessorFn: (row) => row[index],
-    cell: () => null,
-    header: () => <SchedulerDayCell day={day} />,
+    cell: () => <DayCell day={day} />,
+    header: () => <DayHeader day={day} />,
     onCellPointerUp: (event, cell) => {
       if (!schedulerStore.state.current) return;
+      const start = schedulerStore.state.current.start!;
+      const end = dates.setDay(cell.getValue<Date>(), start.getDay());
 
-      schedulerStore.mutate({ current: { end: { cell, ref: cellBy(cell) } } });
-      SchedulerDragContainer.update();
+      schedulerStore.mutate({ current: { end } });
+      SchedulerDragContainer.update({ start, end });
+
       schedulerStore.mutate({ current: null });
-
       SchedulerDragContainer.clear();
     },
     onCellPointerDown: (event, cell) => {
-      const ref = cellBy(cell);
+      const start = cell.getValue<Date>();
 
-      schedulerStore.mutate({ current: { start: { cell, ref }, end: { cell, ref } } });
-      SchedulerDragContainer.update();
+      schedulerStore.mutate({ current: { start } });
+      SchedulerDragContainer.update({ start });
     },
     onCellPointerEnter: (event, cell) => {
       if (!schedulerStore.state.current) return;
-      schedulerStore.mutate({ current: { end: { cell, ref: cellBy(cell) } } });
-      SchedulerDragContainer.update();
+      const start = schedulerStore.state.current.start!;
+      const end = dates.setDay(cell.getValue<Date>(), start.getDay());
+
+      schedulerStore.mutate({ current: { end } });
+      SchedulerDragContainer.update({ start, end });
     },
   });
 
-  const SchedulerDayCell = ({ day }: { day: Date }) => (
+  const DayHeader = ({ day }: { day: Date }) => (
     <div>
       <span className={cx('uppercase', { ['text-blue-500']: dates.isToday(day) })}>{Day.asShort(day)}</span>
       <div
@@ -58,9 +63,5 @@ export namespace SchedulerColumn {
       </div>
     </div>
   );
-
-  const cellBy = <T,>({ cell, table }: CellContext<T, unknown>) =>
-    schedulerStore.state.table.tBodies[0].rows[cell.row.index].cells[
-      table.getAllColumns().findIndex((column) => column.id === cell.column.id)
-    ];
+  const DayCell = ({ day }: { day: Date }) => <div>{day.getDay()}</div>;
 }
