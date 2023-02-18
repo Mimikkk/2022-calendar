@@ -30,6 +30,7 @@ export const SchedulerBody = () => {
           onPointerLeave={() => {
             schedulerStore.state.pending?.root?.unmount();
             schedulerStore.effect({ pending: null });
+            document.documentElement.style.cursor = '';
           }}>
           {getRowModel().rows.map(({ getVisibleCells, id }) => (
             <tr key={id}>

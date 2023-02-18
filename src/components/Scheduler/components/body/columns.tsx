@@ -30,6 +30,7 @@ export namespace SchedulerColumn {
     onCellPointerUp: () => {
       if (!schedulerStore.state.pending) return;
 
+      document.documentElement.style.cursor = '';
       schedulerStore.state.pending.root?.unmount();
       schedulerStore.effect((s) => ({
         containers: [...s.containers, { start: s.pending!.start!, end: s.pending!.end! }],
@@ -40,6 +41,7 @@ export namespace SchedulerColumn {
       if (event.currentTarget.hasChildNodes()) return;
       const start = cell.getValue<Date>();
 
+      document.documentElement.style.cursor = 'move';
       const root = createRoot(event.currentTarget);
       schedulerStore.effect({ pending: { start, root } });
       root.render(<SchedulerReservation start={start} />);

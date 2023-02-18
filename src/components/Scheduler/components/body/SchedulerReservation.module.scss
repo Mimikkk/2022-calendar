@@ -5,9 +5,16 @@
   @apply shadow shadow-blue-700;
   z-index: 1;
 
+  &:not(.is-selected):hover {
+    @apply bg-blue-500;
+    @apply cursor-pointer;
+  }
+
+
   .content {
     @apply overflow-hidden;
     @apply flex justify-between p-0.5;
+
   }
 
   width: calc(100% - 1rem);
