@@ -8,7 +8,7 @@ import { schedulerStore, useSchedulerStore } from '@/components/Scheduler/Schedu
 import { SchedulerReservation } from './SchedulerReservation';
 import { createRoot } from 'react-dom/client';
 import { useMemo } from 'react';
-import { isWithinInterval } from 'date-fns';
+import { isBefore, isWithinInterval } from 'date-fns';
 
 export type PointerColumnDef<T> = ColumnDef<T> & {
   onCellPointerEnter?: (event: PointerEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
@@ -30,28 +30,30 @@ export namespace SchedulerColumn {
     onCellPointerUp: () => {
       if (!schedulerStore.state.pending) return;
 
-      document.documentElement.style.cursor = '';
+      document.body.style.cursor = '';
       schedulerStore.state.pending.root?.unmount();
-      schedulerStore.effect((s) => ({
-        containers: [...s.containers, { start: s.pending!.start!, end: s.pending!.end! }],
-        pending: null,
-      }));
+      schedulerStore.effect((s) => {
+        let [start, end] = [s.pending!.start!, s.pending!.end!];
+        if (isBefore(end, start)) [start, end] = [end, start];
+
+        return { containers: [...s.containers, { start, end }], pending: null };
+      });
     },
     onCellPointerDown: (event, cell) => {
       if (event.currentTarget.hasChildNodes()) return;
       const start = cell.getValue<Date>();
 
-      document.documentElement.style.cursor = 'move';
+      document.body.style.cursor = 'move';
       const root = createRoot(event.currentTarget);
       schedulerStore.effect({ pending: { start, root } });
       root.render(<SchedulerReservation start={start} />);
     },
     onCellPointerEnter: (event, cell) => {
       if (!schedulerStore.state.pending) return;
-      const start = schedulerStore.state.pending.start!;
-      const end = dates.setDay(cell.getValue<Date>(), dates.getDay(start));
+      let start = schedulerStore.state.pending.start!;
+      let end = dates.setDay(cell.getValue<Date>(), dates.getDay(start));
 
-      schedulerStore.mutate({ pending: { end }, selected: null });
+      schedulerStore.mutate({ pending: { end } });
       schedulerStore.effect({ selected: null });
       schedulerStore.state.pending.root?.render(<SchedulerReservation start={start} end={end} />);
     },

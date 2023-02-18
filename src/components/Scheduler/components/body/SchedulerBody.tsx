@@ -26,12 +26,7 @@ export const SchedulerBody = () => {
             </tr>
           ))}
         </thead>
-        <tbody
-          onPointerLeave={() => {
-            schedulerStore.state.pending?.root?.unmount();
-            schedulerStore.effect({ pending: null });
-            document.documentElement.style.cursor = '';
-          }}>
+        <tbody>
           {getRowModel().rows.map(({ getVisibleCells, id }) => (
             <tr key={id}>
               {getVisibleCells().map(({ column: { columnDef }, getContext, id }) => {
