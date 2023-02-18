@@ -3,14 +3,14 @@ import * as dates from 'date-fns';
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import { Day } from '@/utils/fp';
 import type { SchedulerRow } from './rows';
-import type { MouseEvent } from 'react';
+import type { PointerEvent } from 'react';
 import { schedulerStore } from '@/components/Scheduler/SchedulerContext';
 import { SchedulerDragContainer } from '@/components/Scheduler/components/drag';
 
-export type ListenerColumnDef<T> = ColumnDef<T> & {
-  onCellMouseEnter?: (event: MouseEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
-  onCellMouseDown?: (event: MouseEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
-  onCellMouseUp?: (event: MouseEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
+export type PointerColumnDef<T> = ColumnDef<T> & {
+  onCellPointerEnter?: (event: PointerEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
+  onCellPointerDown?: (event: PointerEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
+  onCellPointerUp?: (event: PointerEvent<HTMLTableCellElement>, context: CellContext<T, unknown>) => void;
 };
 
 export namespace SchedulerColumn {
@@ -19,12 +19,12 @@ export namespace SchedulerColumn {
     ...days.map(createColumn),
   ];
 
-  const createColumn = (day: Date, index: number): ListenerColumnDef<SchedulerRow> => ({
+  const createColumn = (day: Date, index: number): PointerColumnDef<SchedulerRow> => ({
     id: `day-${index}`,
     accessorFn: (row) => row[index],
     cell: () => null,
     header: () => <SchedulerDayCell day={day} />,
-    onCellMouseUp: (event, cell) => {
+    onCellPointerUp: (event, cell) => {
       if (!schedulerStore.state.current) return;
 
       schedulerStore.mutate({ current: { end: { cell, ref: cellBy(cell) } } });
@@ -33,13 +33,13 @@ export namespace SchedulerColumn {
 
       SchedulerDragContainer.clear();
     },
-    onCellMouseDown: (event, cell) => {
+    onCellPointerDown: (event, cell) => {
       const ref = cellBy(cell);
 
       schedulerStore.mutate({ current: { start: { cell, ref }, end: { cell, ref } } });
       SchedulerDragContainer.update();
     },
-    onCellMouseEnter: (event, cell) => {
+    onCellPointerEnter: (event, cell) => {
       if (!schedulerStore.state.current) return;
       schedulerStore.mutate({ current: { end: { cell, ref: cellBy(cell) } } });
       SchedulerDragContainer.update();

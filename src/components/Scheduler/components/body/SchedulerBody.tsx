@@ -4,7 +4,7 @@ import { flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { useTable } from '@/hooks/useTable';
 import { SchedulerRow } from './rows';
-import { type ListenerColumnDef, SchedulerColumn } from './columns';
+import { type PointerColumnDef, SchedulerColumn } from './columns';
 
 export const SchedulerBody = () => {
   const { week } = useScheduler();
@@ -29,33 +29,33 @@ export const SchedulerBody = () => {
           {getRowModel().rows.map(({ getVisibleCells, id }) => (
             <tr key={id}>
               {getVisibleCells().map(({ column: { columnDef }, getContext, id }) => {
-                const def = columnDef as ListenerColumnDef<SchedulerRow>;
+                const def = columnDef as PointerColumnDef<SchedulerRow>;
                 const context = getContext();
 
                 return (
                   <td
                     key={id}
-                    onMouseEnter={
-                      def.onCellMouseEnter
+                    onPointerEnter={
+                      def.onCellPointerEnter
                         ? (event) => {
                             event.preventDefault();
-                            def.onCellMouseEnter?.(event, context);
+                            def.onCellPointerEnter?.(event, context);
                           }
                         : undefined
                     }
-                    onMouseDown={
-                      def.onCellMouseDown
+                    onPointerDown={
+                      def.onCellPointerDown
                         ? (event) => {
                             event.preventDefault();
-                            def.onCellMouseDown?.(event, context);
+                            def.onCellPointerDown?.(event, context);
                           }
                         : undefined
                     }
-                    onMouseUp={
-                      def.onCellMouseUp
+                    onPointerUp={
+                      def.onCellPointerUp
                         ? (event) => {
                             event.preventDefault();
-                            def.onCellMouseUp?.(event, context);
+                            def.onCellPointerUp?.(event, context);
                           }
                         : undefined
                     }>
