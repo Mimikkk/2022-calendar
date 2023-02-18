@@ -1,21 +1,21 @@
 import { ButtonIcon } from '@/components/buttons/ButtonIcon';
-import * as dates from 'date-fns';
 import { useCallback } from 'react';
 import type { ChangeEvent } from 'react';
 import { useScheduler } from '@/components/Scheduler/SchedulerContext';
+import * as dates from 'date-fns';
 
 export const SchedulerHeader = () => {
   const {
     week: { forward, backward, set, week },
   } = useScheduler();
 
-  const handleWeekChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => event.target.valueAsDate && set(event.target.valueAsDate),
-    [],
-  );
+  const handleWeekChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    set(event.target.valueAsDate ? event.target.valueAsDate : new Date());
+  }, []);
+
   return (
     <div className="w-full flex justify-end px-2 gap-1">
-      <ButtonIcon icon="Calendar" onClick={() => set(dates.addWeeks(dates.endOfWeek(new Date()), 1))}>
+      <ButtonIcon icon="Calendar" onClick={() => set(new Date())}>
         Dzisiaj
       </ButtonIcon>
       <ButtonIcon variant="text" icon="ChevronLeft" onClick={backward} />

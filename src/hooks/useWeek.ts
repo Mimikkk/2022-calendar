@@ -3,8 +3,9 @@ import { useCallback, useMemo } from 'react';
 import { useDate } from '@/hooks/useDate';
 
 namespace Dates {
-  export const asWeek = (date: Date) => dates.format(date, "yyyy-'W'ww");
-  export const fromWeek = (week: Date) => dates.sub(week, { days: 1 });
+  export const asWeek = (date: Date) => {
+    return dates.format(dates.subWeeks(date, 1), "yyyy-'W'ww");
+  };
 }
 
 export const useWeek = (initial: Date = dates.startOfWeek(new Date())) => {
@@ -14,7 +15,7 @@ export const useWeek = (initial: Date = dates.startOfWeek(new Date())) => {
     (weeks?: any) => original.backward({ weeks: typeof weeks === 'number' ? weeks : 1 }),
     [],
   );
-  const set = useCallback((date: Date) => original.set(Dates.fromWeek(dates.startOfWeek(date))), []);
+  const set = useCallback((date: Date) => original.set(dates.startOfWeek(date, { weekStartsOn: 1 })), []);
 
   return useMemo(
     () => ({
@@ -28,8 +29,8 @@ export const useWeek = (initial: Date = dates.startOfWeek(new Date())) => {
       },
       get days() {
         return dates.eachDayOfInterval({
-          start: dates.startOfWeek(date),
-          end: dates.endOfWeek(date),
+          start: dates.startOfWeek(date, { weekStartsOn: 1 }),
+          end: dates.endOfWeek(date, { weekStartsOn: 1 }),
         });
       },
     }),
